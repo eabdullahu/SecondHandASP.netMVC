@@ -1,0 +1,51 @@
+﻿@page
+@model ViewProductModel
+
+@{
+    ViewData["Title"] = "View Product";
+    ViewData["ActivePage"] = ManageNavPages.ViewProduct;
+
+}
+<div class="my_products toogle_profile">
+    <h3>My Products</h3>
+    <p>Feel free to edit or delete any of your products</p>
+    <div class="available_products">
+        <div class="products-container">
+            <div class="products">
+
+                @foreach (var product in Model.Products)
+                {
+
+                    <div class="item">
+                        <a href="javascript:void(0)" p-id=@product.productId>
+                            <div class="available_product">
+                                <img src="/images/products/@product.Photos.ElementAt(0).photoThumb" />
+                                <div class="right products-tooltip">
+                                    <a href="/Identity/Account/Manage/EditProduct?id=@product.productId" class="edit-my-products"><i class="fas fa-edit edit-product"></i></a>
+
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="position-relative">
+                                    <h3 class="title">@product.productTitle</h3>
+                                </div>
+                                <div class="price">
+                                    <span>@product.productPrice &euro;</span>
+                                    <span class="discount">@product.productDiscount &euro;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/main.js"></script>
+    <script src="~/fontawesome/js/all.min.js"></script>
+
+}

@@ -1,0 +1,31 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<partial name="_nav" />
+
+<div class="main-container">
+    <div class="loginForgetPassword">
+        <div class="login_start">
+            <p>Login</p>
+            <p>Please login using account detail bellow.</p>
+            <div class="login_form">
+                <form class="log_register" method="post">
+                    <input asp-for="Input.Email" class="form-control" />
+                    <input asp-for="Input.Password" class="form-control" />
+                    <div class="button_sign">
+                        <button type="submit" class="sign_in_button">Log in</button>
+                        <a asp-page="./ForgotPassword"> Forgot your password?</a>
+                    </div>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create account</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

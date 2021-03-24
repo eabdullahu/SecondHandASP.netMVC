@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SecondHand.Models.Contents>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="container m-t-20">
+    <div class="responsiveTable">
+
+        <div class="d-flex">
+            <div class="inputContainer justify-content-end m-t-20" style=" width: 160px !important;">
+                <a asp-action="create" class="input width100 outline-badge-blue shadow costumeBackLink">Create Content</a>
+            </div>
+        </div>
+        <table class="m-t-20">
+            <thead>
+                <tr>
+                    <th class="text-center">contentPage</th>
+                    <th>contentGroup</th>
+                    <th>contentOrder</th>
+                    <th>contentCategory</th>
+                    <th>contentTitle</th>
+                    <th>contentDesc</th>
+                    <th>contentImg</th>
+                    <th>contentDt</th>
+
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentPage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentGroup)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentCategory)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentDesc)
+                    </td>
+                    <td class="text-center">
+                          @Html.DisplayFor(modelItem => item.contentImg)   
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contentDt)
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.contentId">Edit</a> |  
+                        <a asp-action="Delete" asp-route-id="@item.contentId">Delete</a>
+                    </td>
+                    
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,49 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+<link rel="stylesheet" href="~/fontawesome/css/all.min.css">
+<div class="my_details toogle_profile">
+    <h3>MY DETAILS</h3>
+    <p>Feel free to edit any of your details below so your account is totally up to date.</p>
+
+    @if ((string)TempData["Referrer"] == "SaveRegister")
+    {
+        <div class="updated-succ">
+            <strong>Updated Successfully !</strong>
+        </div>
+    }
+
+    <form class="my_details_form" method="POST">
+        <div>
+            <label asp-for="Input.UserFirstname">First Name</label>
+            <input asp-for="Input.UserFirstname" placeholder="" value="@ViewData["username"]">
+        </div>
+        <div>
+            <label asp-for="Input.UserLastname">Last Name</label>
+            <input asp-for="Input.UserLastname" placeholder="Last Name" value="@ViewData["lastname"]">
+        </div>
+        <div>
+            <label asp-for="Input.UserName">Email</label>
+            <input asp-for="Input.UserName" placeholder="Email" value="@ViewData["mail"]">
+        </div>
+        <div>
+            <label asp-for="Input.PhoneNumber">Phone Number</label>
+            <input asp-for="Input.PhoneNumber" placeholder="+383 49 000 000" value="@ViewData["phone"]">
+        </div>
+        <div class="one-input">
+            <label asp-for="Input.UserAddress">Address</label>
+            <input asp-for="Input.UserAddress" placeholder="Adress" value="@ViewData["address"]">
+        </div>
+        <div class="change_profile">
+            <button type="submit" class="sign_in_button" name="Save">Change</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/main.js"></script>
+}

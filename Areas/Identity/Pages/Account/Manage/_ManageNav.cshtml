@@ -1,0 +1,24 @@
+﻿@{
+
+    var Username = User.Identity.Name;
+    var initial = Username.Substring(0, 1);
+}
+
+
+<div class="l_profile">
+    <div class="user_image">
+        <div class="user_initials">
+            <h1>@initial</h1>
+        </div>
+        <p>Hi,<br><span>@Username</span></p>
+
+    </div>
+    <ul class="account_list">
+        <li><a  asp-page="./Index"><i class="fas fa-user"></i> Account Overview</a></li>
+        <li><a  asp-page="./PersonalData"><i class="far fa-address-card"></i> My Details</a></li>
+        <li><a asp-page="./ChangePassword"><i class="fas fa-lock"></i> Change Password</a></li>
+        <li><a  asp-page="./ViewProduct"><i class="fas fa-tshirt"></i> My Products</a></li>
+        <li><a asp-page="./AddProduct"><i class="fas fa-plus"></i> Add Product </a></li>
+        <li><form method="post" asp-area="Identity"   asp-page="/Account/Manage/Logout" ><a href="javascript:void(0)"><button class="signOutBtn" type="submit"><i class="fas fa-sign-out-alt"></i> Sign out </button></a> </form></li>
+    </ul>
+</div>

@@ -1,0 +1,366 @@
+﻿@model SecondHand.Models.AdminHomepage.AdminHomepage
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_AdminLayout";
+}
+<div class="container m-t-20">
+    <h4 class="title"> Latest Products </h4>
+    <div class="responsiveTable">
+        <table class="m-t-20">
+            <thead>
+                <tr>
+                    <th class="text-center">#ID</th>
+                    <th class="text-center">Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>URL</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Hp_Products.Count() > 0)
+                {
+
+                    @foreach (var product in Model.Hp_Products)
+                    {
+                <tr>
+                    <td class="text-center">@product.productId</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Details", "Products", new { id = product.productId })"><img src="images/products/@product.Photos.ElementAt(0).photoThumb" /></a>
+                    </td>
+                    <td class="text-primary">@product.productTitle</td>
+                    <td>
+                        @if (product.productDesc.Length > 0) {
+                            @(new string(product.productDesc.Take(70).ToArray()) + "...")
+                        }
+                        else {
+                            @("No Description");
+                        }
+                    </td>
+                    <td>
+                    @if (product.productStock > 0)
+                    {
+                        @if (product.productStatus != null)
+                        {
+                            <span class="onsale">@product.productStatus</span>
+}
+                        @if (product.productDiscount > 0)
+                        {
+                            <span class="onsale">-@Math.Round(product.productDiscount, 1)%</span>
+}
+                    }
+                    else
+                    {
+                        <span class="soldout">SOLDOUT</span>
+                    }
+                        </td>
+                    <td><span class="badge outline-badge-green" title="On stock"> available </span></td>
+                    <td><a target="_blank" href="@Url.Action("Details", "Products", new { id = product.productId })">/ThisProduct</a></td>
+                    <td>
+                        <div class="icons">
+                            <a href="javascript:void(0);" title="change permission of the post"><i class="fas fa-cogs blue"></i></a>
+                            <a href="edit_page.html" title="edit post"><i class="far fa-edit green"></i></a>
+                            <form method="post" action="http://167.71.67.218:5000/deletepage/400">
+                                <button type="submit" name="delete"><i class="far fa-trash-alt red"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+                        
+                    }
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="outterContainer">
+    <div class="container m-t-20">
+        <h4 class="title">Latest Sales</h4>
+        <div class="responsiveTable">
+            <table class="m-t-20">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">#ID</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Timestamp</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model.Hp_Products.Count() > 0) {
+
+                    @foreach (var product in Model.Hp_Products)
+                    {
+
+                        <tr>
+                            <td style="width: 1px;"></td>
+                            <td class="text-center"><a href="@Url.Action("Details", "Products", new { id = product.productId })">@product.productId</a></td>
+                            <td class="text-primary"> @product.productTitle</td>
+                            <td class="text-center">@product.productPrice</td>
+                            <td>@product.AddDate</td>
+                            <td>
+                                @if (product.productStatus.Equals("new"))
+                                {
+                                <span class="badge outline-badge-green" title="New Product">  @product.productStatus </span>
+                                }
+                                else @if (product.productStatus.Equals("sale"))
+                            {
+                                <span class="badge outline-badge-red" title="New Product"> @product.productStatus </span>
+                            }
+                            else
+                            {
+                                <span class="badge outline-badge-red" title="New Product"> @product.productStatus </span>
+                            }
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end"><a class="viewMore">View more <i class="fas fa-angle-double-right"></i></a></div>
+    </div>
+
+    <div class="container m-t-20">
+        <h4 class="title">Last week Sale & Posts</h4>
+        <div class="">
+            <div class="m-t-20" id="chart_div"></div>
+        </div>
+        <div class="d-flex justify-content-end"><a class="viewMore">View more <i class="fas fa-angle-double-right"></i></a></div>
+    </div>
+
+</div>
+<div class="outterContainer">
+
+    <div class="container m-t-20">
+        <h4 class="title">User interaction & sales </h4>
+        <div class="">
+            <div class="m-t-20" id="curve_chart"></div>
+        </div>
+        <div class="d-flex justify-content-end"><a class="viewMore">View more <i class="fas fa-angle-double-right"></i></a></div>
+    </div>
+
+    <div class="container m-t-20">
+        <h4 class="title">Latest added content</h4>
+        <div class="responsiveTable">
+            <table class="m-t-20">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">#ID</th>
+                        <th>username</th>
+                        <th>Badge</th>
+                        <th>Last activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 1px;"></td>
+                        <td class="text-center">135</td>
+                        <td class="text-primary">I+PHORIT</td>
+                        <td>Services</td>
+                        <td>6/3/2020, 11:41:42 AM</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end"><a class="viewMore">View more <i class="fas fa-angle-double-right"></i></a></div>
+    </div>
+</div>
+<script type="text/javascript">
+    google.charts.load('current', {
+        packages: ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawStuff);
+
+    function drawStuff() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Posts');
+        data.addColumn('number', 'Sale');
+        data.addRows([
+            ['US', 16768100, 123121],
+            ['China', 9181204, 9181204],
+            ['Japan', 4898532, 4898532],
+            ['Germany', 3730261, 4898532],
+            ['France', 2678455, 4898532]
+        ]);
+
+        var options = {
+            title: 'Sales of the last week',
+            titleTextStyle: {
+                color: '#bfc9d4',
+                fontName: 'Quicksand',
+                fontSize: 18,
+                bold: true,
+                italic: false
+            },
+            legend: 'top',
+            height: 450,
+            backgroundColor: {
+                fill: '060818'
+            },
+            isStacked: true,
+            bar: {
+                groupWidth: '95%'
+            },
+            hAxis: {
+                textStyle: {
+                    color: '#bfc9d4'
+                },
+                titleTextStyle: {
+                    color: '#bfc9d4'
+                }
+            },
+            vAxis: {
+                textStyle: {
+                    color: '#25d5e4'
+                },
+                gridlines: {
+                    count: 4
+                },
+                titleTextStyle: {
+                    color: '#25d5e4'
+                }
+            },
+            legend: {
+                textStyle: {
+                    color: 'red'
+                },
+                position: 'bottom'
+            }
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    };
+
+
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart22);
+
+    function drawChart22() {
+        var data2 = google.visualization.arrayToDataTable([
+            ['Year', 'vizits', 'sales'],
+            ['2004', 1000, 400],
+            ['2005', 1170, 460],
+            ['2006', 660, 1120],
+            ['2007', 1030, 540]
+        ]);
+
+        var options2 = {
+            title: 'User interaction',
+            curveType: 'function',
+            titleTextStyle: {
+                color: '#bfc9d4',
+                fontName: 'Quicksand',
+                fontSize: 18,
+                bold: true,
+                italic: false
+            },
+            legend: 'top',
+            height: 450,
+            backgroundColor: {
+                fill: '060818'
+            },
+            isStacked: true,
+            bar: {
+                groupWidth: '95%'
+            },
+            hAxis: {
+                textStyle: {
+                    color: '#bfc9d4'
+                },
+                titleTextStyle: {
+                    color: '#bfc9d4'
+                }
+            },
+            vAxis: {
+                textStyle: {
+                    color: '#25d5e4'
+                },
+                gridlines: {
+                    count: 4
+                },
+                titleTextStyle: {
+                    color: '#25d5e4'
+                }
+            },
+            legend: {
+                textStyle: {
+                    color: 'red'
+                },
+                position: 'bottom'
+            }
+
+
+        };
+
+        var curve_chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        curve_chart.draw(data2, options2);
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ChartScripts");}
+}

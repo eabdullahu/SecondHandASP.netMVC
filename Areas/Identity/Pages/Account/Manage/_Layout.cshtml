@@ -1,0 +1,32 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "_Layout.cshtml";
+    }
+}
+
+<partial name="_nav" />
+
+
+<div class="main-container">
+    <div class="user_profile">
+        <partial name="_ManageNav" />
+
+        <div class="r_profile">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/main.js"></script>
+    <script src="~/fontawesome/js/all.min.js"></script>
+
+
+}

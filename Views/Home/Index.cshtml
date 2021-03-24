@@ -1,0 +1,173 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="~/Views/Shared/nav.cshtml" />
+
+<div class="banner">
+    @{ var first_content = Model.Hp_Contents.Where(c => c.contentGroup == 1).ToList(); }
+    @foreach (var item in first_content)
+    {
+        <div class="items" style="background-image: url('images/banner/@item.contentImg');">
+            <div class="content">
+                <p>@item.contentCategory</p>
+                <h3>@item.contentTitle</h3>
+                <a href="javascript:void(0)">Shop button</a>
+            </div>
+        </div>
+    }
+</div>
+
+@{ var five_category = Model.Hp_Categories.Where(u => u.categoryShowHomepage == true && u.categoryThumb != null).OrderBy(x => x.categoryOrder).Take(5).ToList(); }
+
+<div class="main-container">
+    @if (five_category.Count() > 0) {
+    <div class="category">
+        <div class="left">
+            <div class="top-left">
+                <a href="@Url.Action("Index", "Search", new { cid = five_category.ElementAt(0).categoryId })">
+                    <img src="/images/banner/@five_category.ElementAt(0).categoryThumb" />
+                    <div class="category-title">
+                        <p>@five_category.ElementAt(0).categoryTitle</p>
+                        <p class="buy"> + Store</p>
+                    </div>
+                </a>
+            </div>
+            <div class="row">
+                <div class="bottom-left-left">
+                    <a href="@Url.Action("Index", "Search", new { cid = five_category.ElementAt(1).categoryId })">
+                        <img src="/images/banner/@five_category.ElementAt(1).categoryThumb" />
+                        <div class="category-title">
+                            <p>@five_category.ElementAt(1).categoryTitle</p>
+                            <p class="buy"> + Store</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="bottom-left-right">
+                    <a href="@Url.Action("Index", "Search", new { cid = five_category.ElementAt(2).categoryId })">
+                        <img src="/images/banner/@five_category.ElementAt(2).categoryThumb" />
+                        <div class="category-title">
+                            <p>@five_category.ElementAt(2).categoryTitle</p>
+                            <p class="buy"> + Store</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="top-right">
+                <a href="@Url.Action("Index", "Search", new { cid = five_category.ElementAt(3).categoryId })">
+                    <img src="/images/banner/@five_category.ElementAt(3).categoryThumb" />
+                    <div class="category-title">
+                        <p>@five_category.ElementAt(3).categoryTitle</p>
+                        <p class="buy"> + Store</p>
+                    </div>
+                </a>
+            </div>
+            <div class="bottom-right">
+                <a href="@Url.Action("Index", "Search", new { cid = five_category.ElementAt(4).categoryId })">
+                    <img src="/images/banner/@five_category.ElementAt(4).categoryThumb" />
+                    <div class="category-title">
+                        <p>@five_category.ElementAt(4).categoryTitle</p>
+                        <p class="buy"> + Store</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    }
+    @if (Model.Hp_Products.Count() > 0)
+    {
+        <div class="products-container">
+            <div class="align-center">
+                <h2 class="title">New arriwal collection</h2>
+                <p class="description">Find your style Of arrival collection</p>
+            </div>
+            <div class="products">
+                @foreach (var product in Model.Hp_Products)
+                {
+                    <div class="item" p-id="@product.productId">
+                        <div>
+                            <a href="@Url.Action("Details", "Products", new { id = product.productId })">
+                                <img src="images/products/@product.Photos.ElementAt(0).photoThumb" />
+                            </a>
+                            <div class="left">
+                                @if (product.productStock > 0)
+                                {
+                                    @if (product.productStatus != null)
+                                    {<span class="onsale">@product.productStatus</span>}
+                                    @if (product.productDiscount > 0)
+                                    {<span class="onsale">-@Math.Round(product.productDiscount, 1)%</span>}
+                                }
+                                else
+                                {
+                                    <span class="soldout">SOLDOUT</span>
+                                }
+                            </div>
+                            <div class="right">
+                                @if (Context.Request.Cookies[product.productId.ToString()] != null)
+                                {
+                                    <button type="button" class="wishlist" aria-label="Remove from wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-close"></i></button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="wishlist" aria-label="Add to wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-like"></i></button>
+                                }
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="position-relative">
+                                <h3 class="title">@product.productTitle</h3>
+                                @if (product.productStock > 0)
+                                {
+                                    <button type="button" class="buy">+  Add to cart</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="buy soldout">-  Soldout</button>
+                                }
+                            </div>
+                            <div class="price">
+                                @if (product.productDiscount > 0)
+                                {
+                                    <span>@Math.Round(product.productPrice * (1 - ((double)product.productDiscount / 100)), 1) &euro;</span>
+                                    <span class="discount">@product.productPrice &euro;</span>
+                                }
+                                else
+                                {
+                                    <span>@product.productPrice &euro;</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="align-center width100">
+                    <a class="show-more" href="javascript:void(0)">+ Show More..</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="footer-top">
+        @{ var second_content = Model.Hp_Contents.Where(c => c.contentGroup == 2).ToList(); }
+        @foreach (var sitem in second_content)
+        {
+            <div class="single">
+                <h4 class="title">@sitem.contentTitle</h4>
+                @if (sitem.contentImg != null && sitem.contentImg.Trim() != "")
+                {
+                    <img src="/images/logo/@sitem.contentImg" />
+                }
+                else
+                {
+                    <p>@sitem.contentDesc</p>
+                }
+            </div>
+        }
+    </div>
+    <partial name="~/Views/Shared/shoppingcart.cshtml" />
+</div>
+

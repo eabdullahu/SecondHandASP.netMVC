@@ -1,0 +1,52 @@
+﻿@model SecondHand.Controllers.UsersController.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
+}
+ <div class="container m-t-20">
+    <form method="post" id="submitForm" enctype="multipart/form-data" >
+        <div class="first">
+            <h4 class="title">Armin Pakashtica</h4>
+            <input type="hidden" asp-for="Id" />
+            <div class="inputContainer g50">
+                <div>
+                    <p>User Name </p>
+                    <input asp-for="Firstname" class="input" placeholder="Name" >
+                </div>
+                <div>
+                    <p>User Surname</p>
+                    <input type="text" asp-for="Surname" class="input" placeholder="Surname"  >
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p> Email </p>
+                    <input type="email" asp-for="Email" class="input" placeholder="User email">
+                </div>
+                <div>
+                    <p>Role</p>
+                    <input asp-for="Role" class="input" disabled>
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p>Display name </p>
+                    <input  asp-for="UserName" class="input" placeholder="Set a username">
+                </div>
+                <div>
+                    <p> Password </p>
+                    <input type="password" asp-for="password" class="input" placeholder="Your password">
+                </div>
+            </div>
+
+        </div>
+        <div class="second">
+            <div class="inputContainer justify-content-end m-t-20">
+                <input type="submit" name="submit" class="input width100 outline-badge-green shadow" value="Save Changes">
+            </div>
+        </div>
+    </form>
+</div>

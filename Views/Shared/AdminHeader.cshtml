@@ -1,0 +1,24 @@
+﻿<div class="navbar">
+    <header>
+        <a class="logo" href="dashboard.html">
+            <img src="images/logo/logo_transparent.png"> CMS
+        </a>
+
+        <div class="left">
+
+            <div class="profile dropdown">
+                <img src="images/logo/logo_transparent.png">
+                <div class="username">
+                    <span>Hi, </span>
+                    <p>@User.Identity.Name</p>
+                    <span><i class="fas fa-angle-down"></i></span>
+                </div>
+                <div class="dropdown-items">
+                    <div><a href="javascript:void(0)"><i class="far fa-user"></i> Profili</a></div>
+                    <div><a href="javascript:void(0)"><form method="post" asp-area="Identity" asp-page="/Account/Manage/Logout"><button class="adminSignOutBtn" type="submit"><i class="fas fa-sign-out-alt"></i> Sign out </button> </form> </a></div>
+                 </div>
+            </div>
+
+        </div>
+    </header>
+</div>

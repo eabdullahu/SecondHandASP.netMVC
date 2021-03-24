@@ -1,0 +1,68 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="~/Views/Shared/nav.cshtml" />
+
+<div class="page-banner">
+    <div class="main-container">
+        <div id="content">
+            <h2 class="title">Wishlist</h2>
+            <ul class="breadcrumb-list">
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="javascript:void(0)">Wishlist</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="products-container">
+        <div class="products">
+            @foreach (var product in Model.Hp_Products) {
+                <div class="item" p-id="@product.productId">
+                    <div>
+                        <a href="@Url.Action("Details", "Products", new { id = product.productId })">
+                            <img src="images/products/@product.Photos.ElementAt(0).photoThumb" />
+                        </a>
+                        <div class="left">
+                            @if (product.productStock > 0) {
+                                @if (product.productStatus != null) { <span class="onsale">@product.productStatus</span> }
+                                @if (product.productDiscount > 0) { <span class="onsale">-@Math.Round(product.productDiscount,1)%</span> }
+                            }else {
+                                <span class="soldout">SOLDOUT</span>
+                            }
+                        </div>
+                        <div class="right">
+                            <button type="button" class="wishlist wishlist-delete" aria-label="Remove from wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-close"></i></button>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="position-relative">
+                            <h3 class="title">@product.productTitle</h3>
+                            @if (product.productStock > 0) {
+                            <button type="button" class="buy">+  Add to cart</button>
+                            }else {
+                            <button type="button" class="buy soldout">-  Soldout</button>
+                            }
+                        </div>
+                        <div class="price">
+                            @if (product.productDiscount > 0) {
+                                <span>@Math.Round(product.productPrice * (1 - ((double)product.productDiscount / 100)), 1) &euro;</span>
+                                <span class="discount">@product.productPrice &euro;</span>
+                            }else {
+                                <span>@product.productPrice &euro;</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="align-center width100" id="wishlistEmpty" style="@(Model.Hp_Products.Count() > 0 ? "display: none;" : "")">
+				<a class="show-more" href="javascript:void(0)">Your wishlist is empty.</a>
+			</div>
+        </div>
+    </div>
+     <partial name="~/Views/Shared/shoppingcart.cshtml" />
+</div>

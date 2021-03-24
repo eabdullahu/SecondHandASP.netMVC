@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Keywords to show" />
+    <meta name="description" content="Page description" />
+    <meta name="copyright" content="Copyright - 2020 Enis Abdullahu" />
+    <meta name="author" content="Enis Abdullahu" />
+    <meta name="language" content="en" />
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale = 1.0, width=device-width, user-scalable=no, minimal-ui" />
+
+    <title>@ViewData["Title"] - SecondHand</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/css/owl.transitions.css">
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/mobile.css">
+</head>
+<body>
+    <div class="main">
+        @RenderBody()
+
+        <footer class="container">
+            <div class="footer-content">
+                <a href="index.html">
+                    <img src="/images/logo/logo.png">
+                </a>
+                <p>Copyright © Emri webit All Right Reserved.</p>
+                <div class="social-media">
+                    <a href="javascript:void(0)"><i class="flaticon-facebook"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-instagram"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-twitter"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-youtube"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

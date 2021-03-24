@@ -1,0 +1,81 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    var cities = (IEnumerable<City>)ViewData["Cities"];
+
+}
+<div class=" bck-account page-banner mt-0">
+        <div id="content">
+            <h2 class="title">Create Account</h2>
+            <ul class="breadcrumb-list">
+                <li><a href="javascript:void(0)">Home</a></li>
+                <li><a href="javascript:void(0)">Create Account</a></li>
+            </ul>
+        </div>
+</div>
+<div class="login_start">
+    <p>Create Account</p>
+    <p>Please Register using account detail bellow.</p>
+    <div class="register_form">
+        <form class="log_register" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="two_inputs">
+                <div>
+                    <label asp-for="Input.UserFirstname">First Name</label>
+                    <input asp-for="Input.UserFirstname" placeholder="First Name">
+                    <span asp-validation-for="Input.UserFirstname" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.UserLastname">Last Name</label>
+                    <input asp-for="Input.UserLastname" placeholder="Last Name">
+                </div>
+            </div>
+            <div class="two_inputs">
+                <div>
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" placeholder="Email">
+                </div>
+                <div>
+                    <label asp-for="Input.UserPhoneNumber">Phone Number</label>
+                    <input asp-for="Input.UserPhoneNumber" placeholder="+38344444444">
+                </div>
+            </div>
+            <div class="two_inputs">
+                <div>
+                    <label asp-for="Input.Password">Password</label>
+                    <input asp-for="Input.Password" placeholder="*********">
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.ConfirmPassword">Password</label>
+                    <input asp-for="Input.ConfirmPassword" placeholder="*********">
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="two_inputs">
+                <div>
+                    <label asp-for="Input.city">City</label>
+                    <select class="slct-city" asp-for="Input.UserCity" asp-items="ViewBag.cityId">
+                    </select>
+                </div>
+                <div>
+                    <label asp-for="Input.UserAddress">Address</label>
+                    <input asp-for="Input.UserAddress" placeholder="Bregu i Diellit">
+                </div>
+            </div>
+            <div class="button_sign">
+                <button type="submit" class="sign_in_button">Create</button>
+            </div>
+            <a href="
+              @Url.Action("Login", "Users")">Return to Store</a>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

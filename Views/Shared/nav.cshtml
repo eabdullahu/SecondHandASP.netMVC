@@ -1,0 +1,160 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+
+<nav class="menu">
+    <a href="@Url.Action("Index", "Home")">
+        <img src="~/images/logo/logo.png" />
+    </a>
+    <button class="hamburger-menu" aria-label="Main Menu">
+        <svg width="50" height="50" viewBox="0 0 100 100">
+            <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+            <path class="line line2" d="M 20,50 H 80" />
+            <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+        </svg>
+    </button>
+    <ul class="menu">
+        @{ var menu = Model.Hp_Categories.Where(u => u.categoryParentId == 0 && u.categorySubParentId == 0).ToList(); }
+        @foreach (var item in menu)
+        {
+            var submenu = Model.Hp_Categories.Where(u => u.categoryParentId == item.categoryId && u.categorySubParentId == 0).ToList();
+            @if (submenu.Count > 0)
+            {
+                <li class="dropdown">
+                    <a href="@Url.Action("Index", "Search", new { cid = item.categoryId })">@item.categoryTitle<i class="flaticon-down-arrow"></i></a>
+                    <ul class="dropdown-items">
+                        @foreach (var it in submenu)
+                        {
+                            var submenu2 = Model.Hp_Categories.Where(u => u.categoryParentId == item.categoryId && u.categorySubParentId == it.categoryId).ToList();
+                            <li class="inner">
+                                <ul>
+                                    <li><a class="title" href="@Url.Action("Index", "Search", new { cid = it.categoryId })">@it.categoryTitle</a></li>
+                                    @foreach (var it2 in submenu2)
+                                    {
+                                        <li><a href="@Url.Action("Index", "Search", new { cid = it2.categoryId })">@it2.categoryTitle</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                @if (item.categoryId == 1)
+                {
+                    <li><a href="@Url.Action("Index", "Home")">@item.categoryTitle</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Index", "Search", new { cid = item.categoryId })">@item.categoryTitle</a></li>
+                }
+            }
+        }
+    </ul>
+    <div class="icons">
+        <div>
+            <div class="search-form-header">
+                <form action="/Search" method="get">
+                    <input type="text" placeholder="Search our store" name="search" />
+                    <button type="button" name="submit-search" id="submit-search"><i class="flaticon-loupe"></i></button>
+                </form>
+            </div>
+        </div>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Basic"))
+                {
+            <a asp-area="Identity" asp-page="/Account/Manage/index">
+              
+                    @User.Identity.Name
+             
+                <i class="flaticon-user"></i>
+            </a>
+
+                }
+
+            }
+            else { 
+                <a asp-area="Identity" asp-page="/Account/Login">
+                    <i class="flaticon-user"></i>
+                </a>
+            }
+        </div>
+        <div>
+            <a href="@Url.Action("Index", "Wishlist")">
+                <i class="flaticon-heart"></i>
+            </a>
+        </div>
+        <div class="indicator-container">
+            <i class="flaticon-shopping-cart"></i>
+            <span class="indicator">@Sessions.returnCount(Context.Session)</span>
+        </div>
+    </div>
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-container">
+        <div class="search-form-header">
+            <form asp-controller="Search" asp-action="Index" method="get">
+                <input type="text" placeholder="Search our store" name="search-products" />
+                <button type="button" name="submit-search" id="submit-search"><i class="flaticon-loupe"></i></button>
+            </form>
+        </div>
+        <div class="icons display-flex">
+            <div>
+                <a href="@Url.Action("Index", "Wishlist")">
+                    <i class="flaticon-user"></i>
+                </a>
+            </div>
+            <div>
+                <a href="@Url.Action("Index", "Wishlist")">
+                    <i class="flaticon-heart"></i>
+                </a>
+            </div>
+            <div class="indicator-container">
+                <i class="flaticon-shopping-cart"></i>
+                <span class="indicator">@Sessions.returnCount(Context.Session)</span>
+            </div>
+        </div>
+
+        <nav class="mobile-menu">
+            <ul>
+                @foreach (var item in menu)
+                {
+                    var submenu = Model.Hp_Categories.Where(u => u.categoryParentId == item.categoryId && u.categorySubParentId == 0).ToList();
+                    @if (submenu.Count > 0)
+                    {
+                        <li class="menu-has-children">
+                            <a href="javascript:void(0)">@item.categoryTitle</a>
+                            <span class="flaticon-plus close-open"></span>
+                            <ul class="sub-menu">
+                                @foreach (var it in submenu)
+                                {
+                                    var submenu2 = Model.Hp_Categories.Where(u => u.categoryParentId == item.categoryId && u.categorySubParentId == it.categoryId).ToList();
+                                    <li class="menu-has-children">
+                                        <a href="javascript:void(0)">@it.categoryTitle</a>
+                                        <span class="flaticon-plus close-open"></span>
+                                        <ul class="sub-menu">
+                                            @foreach (var it2 in submenu2)
+                                            {
+                                                <li><a href="javascript:void(0)">@it2.categoryTitle</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="javascript:void(0)">@item.categoryTitle</a></li>
+                    }
+                }
+            </ul>
+        </nav>
+        <div class="mobile-social-media">
+            <a href="javascript-void"><i class="flaticon-facebook"></i></a>
+            <a href="javascript-void"><i class="flaticon-instagram"></i></a>
+            <a href="javascript-void"><i class="flaticon-twitter"></i></a>
+            <a href="javascript-void"><i class="flaticon-youtube"></i></a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,94 @@
+﻿@model SecondHand.Models.Contents
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container m-t-20">
+    <form method="post" enctype="multipart/form-data">
+        <div class="first">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="contentId" />
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentPage</p>
+                    <input asp-for="contentPage" class="input" />
+                    <span asp-validation-for="contentPage"></span>
+                </div>
+                <div>
+                    <p>contentGroup</p>
+                    <input asp-for="contentGroup" class="input" />
+                    <span asp-validation-for="contentGroup"></span>
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentOrder</p>
+                    <input asp-for="contentOrder" class="input" />
+                    <span asp-validation-for="contentOrder"></span>
+                </div>
+                <div>
+                    <p>contentCategory</p>
+                    <input asp-for="contentCategory" class="input" />
+                    <span asp-validation-for="contentCategory"></span>
+                </div>
+            </div>
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentTitle</p>
+                    <input asp-for="contentTitle" class="input" />
+                    <span asp-validation-for="contentTitle"></span>
+                </div>
+                <div>
+                    <p>contentDesc</p>
+                    <input asp-for="contentDesc" class="input" />
+                    <span asp-validation-for="contentDesc"></span>
+                </div>
+            </div>
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentImg</p>
+                    <input asp-for="contentImg" class="input" />
+                    <span asp-validation-for="contentImg"></span>
+                </div>
+                <div>
+                    <p>contentIcon</p>
+                    <input asp-for="contentIcon" class="input" />
+                    <span asp-validation-for="contentIcon"></span>
+                </div>
+            </div>
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentLink</p>
+                    <input asp-for="contentLink" class="input" />
+                    <span asp-validation-for="contentLink"></span>
+                </div>
+                <div>
+                    <p>contentDt</p>
+                    <input asp-for="contentDt" class="input" />
+                    <span asp-validation-for="contentDt"></span>
+                </div>
+            </div>
+            <div class="inputContainer g50">
+                <div>
+                    <p>contentLink</p>
+                    <input type="file" name="file" clas="input" />
+                </div>
+            </div>
+        </div>
+        <div class="second">
+            <div class="inputContainer justify-content-end m-t-20">
+                <input type="submit" name="submit" class="input width100 outline-badge-green shadow" value="Save Changes">
+            </div>
+            <div class="inputContainer justify-content-end m-t-20">
+                <a asp-action="Index" class="input width100 outline-badge-blue shadow costumeBackLink">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

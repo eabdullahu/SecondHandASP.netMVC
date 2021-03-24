@@ -1,0 +1,29 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+@using Microsoft.AspNetCore.Http;
+<div id="shopping-overlay"></div>
+<div id="shopping-container">
+    <div class="heading">
+        <span class="title">Cart</span>
+        <span class="indicator-container"><i class="flaticon-close"></i></span>
+    </div>
+    <div class="shopping-products">
+        @{ List<Products> sessionList = Sessions.GetObjectFromJson<List<Products>>(Context.Session, "cart");
+            if (sessionList != null && sessionList.Count() > 0)
+            {
+                @Html.Raw(new Cart().createCart(sessionList));
+            }
+        }
+        <div id="shopping-cart-prices" style="@(sessionList == null || sessionList.Count() == 0 ? "display:none" : "")">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">@(sessionList != null ? Sessions.GetObjectFromJson<double>(Context.Session, "cart_total") : 0.00) &euro;</span>
+            </div>
+            <div style="height: 30px;"></div>
+            <a href="@Url.Action("Index", "Checkout")" class="shopping-buttons shopping-checkout">Checkout</a>
+            <a href="@Url.Action("Index", "Cart")" class="shopping-buttons shopping-view-cart">View cart</a>
+        </div>
+        <div class="cart-total cart-empty" id="shopping-cart-empty" style="@(sessionList == null || sessionList.Count() == 0 ? "display:flex" : "")">
+            <span><i class="flaticon-shopping-cart"></i>&nbsp; Your shopping cart is empty.</span>
+        </div>
+    </div>
+</div>

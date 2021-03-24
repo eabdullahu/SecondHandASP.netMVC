@@ -1,0 +1,80 @@
+﻿@model SecondHand.Controllers.UsersController.InputModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
+}
+<div class="container m-t-20">
+    <form method="post" id="submitForm" enctype="multipart/form-data">
+        <div class="first">
+            <h4 class="title">Armin Pakashtica</h4>
+            <div class="inputContainer g50">
+                <div>
+                    <p>UserFirstname </p>
+                    <input asp-for="UserFirstname" class="input" placeholder="First Name">
+                    <span asp-validation-for="UserFirstname" class="text-danger"></span>
+                </div>
+                <div>
+                    <p> UserLastname</p>
+
+                    <input asp-for="UserLastname" class="input" placeholder="Last Name">
+                    <span asp-validation-for="UserLastname" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p> Email </p>
+
+                    <input asp-for="Email" class="input" placeholder="Email">
+
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div>
+                    <p>Phone Number</p>
+
+                    <input asp-for="UserPhoneNumber" class="input" placeholder="+38344444444">
+
+                    <span asp-validation-for="UserPhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p>Password </p>
+                    <input asp-for="Password" class="input" placeholder="*********">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <p> ConfirmPassword </p>
+                    
+                    <input asp-for="ConfirmPassword" class="input" placeholder="*********">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="inputContainer g50">
+                <div>
+                    <p>City </p>
+                    <select class="slct-city" asp-for="UserCity" asp-items="ViewBag.cityId">
+                    </select>
+                </div>
+                <div>
+                    <p> Address </p>
+
+                    
+                    <input asp-for="UserAddress" class="input" placeholder="Bregu i Diellit">
+                </div>
+            </div>
+
+        </div>
+        <div class="second">
+            <div class="inputContainer justify-content-end m-t-20">
+                <input type="submit" name="submit" class="input width100 outline-badge-green shadow" value="Save Changes">
+            </div>
+
+            <div class="inputContainer justify-content-end m-t-20">
+                <a asp-action="Index" class="input width100 outline-badge-blue shadow costumeBackLink">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>

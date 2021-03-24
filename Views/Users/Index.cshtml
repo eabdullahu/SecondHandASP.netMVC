@@ -1,0 +1,109 @@
+﻿@model IEnumerable<SecondHand.Models.User>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Index";
+    var SearchedString = ViewData["search"] != null ? (string)ViewData["search"] : "";
+
+
+    //var itemToShow = (int)ViewData["itemToShow"];
+    var totalRows = (int)ViewData["totalPage"];
+    var totalPages = (int)ViewData["totalPages"];
+    var pageIndex = (int)ViewData["pageIndex"];
+}
+
+<div class="container m-t-20">
+    <div class="form-content">
+        <form method="get" action="">
+            <div class="search d-flex">
+                <div>
+                    <input name="search" placeholder="What are you looking for..." value="@SearchedString">
+                    <button type="submit"><i class="fas fa-search"></i>&nbsp;Search</button>
+                    <button class="reset-filer"><i class="fas fa-filter"></i></button>
+                </div>
+                <div class="open-search-filter"> <i class="fas fa-chevron-circle-down"></i>&nbsp;More Options</div>
+            </div>
+            <div class="other-filters ">
+                <div class="search d-flex w-100">
+                    <span>
+                        <label for="start_date">Added Date</label>
+                        <input name="start_date" id="startdate" placeholder="What are you looking for..." type="date">
+                    </span>
+                    <span>
+                        <label for="end_date">Added upto     Date</label>
+                        <input name="end_date" placeholder="What are you looking for..." type="date">
+                    </span>
+                    <span>
+                        <label for="UserRoles">Role</label>
+                        @Html.DropDownList("selectUsersbyRole", (IEnumerable<SelectListItem>)ViewData["UserRolesData"])
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="container m-t-20">
+    <div class="responsiveTable">
+        
+            <div class="d-flex">
+                <div class="inputContainer justify-content-end m-t-20" style=" width: 160px !important;">
+                    <a asp-action="create" class="input width100 outline-badge-blue shadow costumeBackLink">Create User</a>
+                </div>
+            </div>
+            <table class="m-t-20">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th>Surname</th>
+                        <th>Email</th>
+                        <th>added date</th>
+
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserFirstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserLastname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserRegisterDate)
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            @if (pageIndex - 1 > 0)
+            {
+
+                <a class="viewMore pagination-buttons" href="?page=@(pageIndex-1)"> &lt; </a>
+            }
+            @for (var i = Math.Max(1, pageIndex - 2); i <= Math.Min(pageIndex + 2, totalPages); i++)
+            {
+                <a class="viewMore pagination-buttons" href="?page=@i">@i</a>
+            }
+            @if (pageIndex + 1 <= totalPages)
+            {
+                <a class="viewMore pagination-buttons" href="?page=@(pageIndex+1)"> &gt;</a>
+            }
+        </div>
+    </div>

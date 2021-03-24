@@ -1,0 +1,162 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+@{
+    ViewData["Title"] = "Details";
+    var Categories = (List<Tuple<int, string>>)ViewData["Categories"];
+    var SearchedString = ViewData["search"] != null ? (string)ViewData["search"] : "";
+    var SelectedCategory = (int)ViewData["category"] != 0 ? (int)ViewData["category"] : 0;
+
+    var itemToShow = (int)ViewData["itemToShow"];
+    var totalRows = (int)ViewData["totalPage"];
+    var totalPages = (int)Math.Ceiling(Convert.ToDouble(totalRows) / itemToShow);
+    var pageIndex = (int)ViewData["pageIndex"];
+}
+
+<partial name="~/Views/Shared/nav.cshtml" />
+
+<div class="page-banner">
+    <div class="main-container">
+        <div id="content">
+            <h2 class="title">Search</h2>
+            <ul class="breadcrumb-list">
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="javascript:void(0)">Search</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<form method="get" action="">
+    <div class="search-header">
+        <div class="main-container">
+            <div class="search-items">
+                <p class="showing-result">Showing 1 - @Model.Hp_Products.Count() of @totalRows result</p>
+                <div class="product-showing">
+                    <p class="showing-result">Show</p>
+                    <input type="hidden" placeholder="Search our store" name="search" value="@SearchedString" />
+                    <input type="hidden" name="cid" value="@SelectedCategory" />
+                    @Html.DropDownList("perpage", (IEnumerable<SelectListItem>)ViewData["showPerPage"], new { @class = "select-field", onchange = "this.form.submit();" })
+                    <p class="showing-result">per page</p>
+                </div>
+                <div class="product-showing">
+                    <p class="showing-result">Sort by</p>
+                    @Html.DropDownList("sortby", (IEnumerable<SelectListItem>)ViewData["orderBy"], new { @class = "select-field", onchange = "this.form.submit();" })
+                </div>
+            </div>
+            <div class="search-filter">
+                <div class="product-showing">
+                    <p class="filter-text">Sort by</p>
+                    @Html.DropDownList("sortby", (IEnumerable<SelectListItem>)ViewData["orderBy"], new { @class = "select-field", onchange = "this.form.submit();" })
+                </div>
+                <p class="filter-text" id="open-filters"><i class="flaticon-filter"></i> Filters</p>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="main-container">
+    <div class="search-divider">
+        <div class="search">
+            <h2 class="title">Search</h2>
+            <form method="get" action="">
+                <div class="search-form-container">
+                    <input type="hidden" name="cid" value="@SelectedCategory" />
+                    <input type="text" placeholder="Search our store" name="search" value="@SearchedString" />
+                    <button type="submit"><i class="flaticon-loupe"></i></button>
+                </div>
+            </form>
+            <h2 class="title">Catgeories</h2>
+            <ul>
+                <li><a class="@(SelectedCategory == 0 ? "active":"")" href="?cid=0&search=@SearchedString">All</a></li>
+                @for (var i = 0; i < Categories.Count(); i++)
+                {
+                    if (@Categories[i].Item2 != null)
+                    {
+                        <li><a class="@(SelectedCategory == @Categories[i].Item1 ? "active":"")" href="?cid=@Categories[i].Item1&search=@SearchedString">@Categories[i].Item2</a></li>
+
+                    }
+                }
+            </ul>
+            <h2 class="title">Sizes</h2>
+            <div class="sizes">
+                <a class="active" href="javascript:void(0)">S</a>
+                <a class="active" href="javascript:void(0)">M</a>
+                <a href="javascript:void(0)">L</a>
+                <a href="javascript:void(0)">XL</a>
+                <a href="javascript:void(0)">XXL</a>
+            </div>
+        </div>
+        <div class="search-results">
+            <div class="products-container bmargin-100">
+                <div class="products nobmargin">
+                @if(Model.Hp_Products != null && Model.Hp_Products.Count() > 0) {
+                    @foreach (var product in Model.Hp_Products) {
+                        <div class="item" p-id="@product.productId">
+                            <div>
+                                <a href="@Url.Action("Details", "Products", new { id = product.productId })">
+                                    <img src="images/products/@product.Photos.ElementAt(0).photoThumb" />
+                                </a>
+                                <div class="left">
+                                    @if (product.productStock > 0)
+                                    {
+                                        @if (product.productStatus != null)
+                                        {<span class="onsale">@product.productStatus</span>}
+                                        @if (product.productDiscount > 0)
+                                        {<span class="onsale">-@Math.Round(product.productDiscount, 1)%</span>}
+                                    }
+                                    else
+                                    {
+                                        <span class="soldout">SOLDOUT</span>
+                                    }
+                                </div>
+                                <div class="right">
+                                    @if (Context.Request.Cookies[product.productId.ToString()] != null)
+                                    {
+                                        <button type="button" class="wishlist" aria-label="Remove from wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-close"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="wishlist" aria-label="Add to wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-like"></i></button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="position-relative">
+                                    <h3 class="title">@product.productTitle</h3>
+                                    @if (product.productStock > 0)
+                                    {
+                                        <button type="button" class="buy">+  Add to cart</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="buy soldout">-  Soldout</button>
+                                    }
+                                </div>
+                                <div class="price">
+                                    @if (product.productDiscount > 0)
+                                    {
+                                        <span>@Math.Round(product.productPrice * (1 - ((double)product.productDiscount / 100)), 1) &euro;</span>
+                                        <span class="discount">@product.productPrice &euro;</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@product.productPrice &euro;</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }else {
+                    <div class="item width100-imp">No products to show.</div>
+                }
+                </div>
+                <div class="pagination">
+                    <a class="width @(pageIndex <= 1 ? "disabled":"")" href="?page=@(pageIndex-1)">Previous</a>
+                @for (var i = Math.Max(1, pageIndex - 2); i <= Math.Min(pageIndex + 2, totalPages); i++) {
+                    <a class="@(i == pageIndex ? "active":"")" href="?page=@i">@i</a>
+                }
+                <a class="width @(pageIndex >= totalPages ? "disabled":"")" href="?page=@(pageIndex+1)">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="~/Views/Shared/shoppingcart.cshtml" />
+</div>

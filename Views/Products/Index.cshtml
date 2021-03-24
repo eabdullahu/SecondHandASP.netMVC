@@ -1,0 +1,88 @@
+﻿@model IEnumerable<SecondHand.Models.Products>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container m-t-20">
+    <div class="responsiveTable">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="m-t-20">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.userId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productTitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.categoryId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productDiscount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productSize)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productStock)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.userId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.productTitle)
+                        </td>
+                        <td>
+
+
+
+
+                                @Html.DisplayFor(modelItem => item.productDesc);
+                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.categoryId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.productPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.productDiscount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.productSize)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.productStock)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.productId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.productId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.productId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

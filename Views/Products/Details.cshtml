@@ -1,0 +1,233 @@
+﻿@model SecondHand.Models.Homepage.Homepage
+@{
+    ViewData["Title"] = "Details";
+    var Product = (Products)ViewData["Product"];
+}
+
+<partial name="~/Views/Shared/nav.cshtml" />
+
+<div class="page-banner">
+    <div class="main-container">
+        <div id="content">
+            <h2 class="title">@Product.productTitle</h2>
+            <ul class="breadcrumb-list">
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="javascript:void(0)">@Product.productTitle</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="single-product">
+        <div class="gallery">
+            <div class="navs slider-nav">
+                @foreach (var photos in Product.Photos)
+                {
+                    <div class="nav-items">
+                        <img src="/images/products/@photos.photoThumb" />
+                    </div>
+                }
+            </div>
+            <div class="images slider-image">
+                @foreach (var photos in Product.Photos)
+                {
+                    <div>
+                        <img src="/images/products/@photos.photoSrc" />
+                        <div class="left">
+                            @if (Product.productStock > 0)
+                            {
+                                @if (Product.productStatus != null)
+                                {<span class="onsale">@Product.productStatus</span>}
+                                @if (Product.productDiscount > 0)
+                                {<span class="onsale">-@Math.Round(Product.productDiscount, 1)%</span>}
+                            }
+                            else
+                            {
+                                <span class="soldout">SOLDOUT</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="product-content" p-id="@Product.productId">
+            @if (Product.Reviews.Count() > 0)
+            {
+                <div class="review_icons">
+                    @foreach (var review in Product.Reviews)
+                    {
+                        <i class="flaticon-star"></i>
+                    }
+                    <span class="review">@Product.Reviews.Count() review</span>
+                </div>
+            }
+            <div class="product_name">
+                <h2>@Product.productTitle</h2>
+            </div>
+            <div class="product_price">
+                @if (@Product.productDiscount > 0)
+                {
+                    <span class="last-price">@Product.productPrice &euro;</span>
+                    <span class="price">@Math.Round(@Product.productPrice * (1 - ((double)@Product.productDiscount / 100)), 1) &euro;</span>
+                }
+                else
+                {
+                    <span class="price">@Product.productPrice &euro;</span>
+                }
+            </div>
+            <div class="desc">
+                @Product.productDesc
+            </div>
+            <div class="size">
+                <span class="header">Size : </span>
+                <span class="size-type">@Product.productSize</span>
+            </div>
+            <div class="quantity">
+                <span class="header">Quantity : </span>
+                <div class="product-quantity">
+                    <span class="quantity-dec"> - </span>
+                    <input type="text" name="quanity-val" class="quanity-val" value="1" min="1" max="@Product.productStock">
+                    <span class="quantity-inc"> + </span>
+                </div>
+            </div>
+            <div class="add-buttons">
+                <button type="button" class="buy addToCart @(Product.productStock <= 0 ? "disabled" : "")" id="addToCart">add to cart</button>
+                @if (Context.Request.Cookies[Product.productId.ToString()] != null)
+                {
+                    <button type="button" class="single-wishlist wishlist" aria-label="Remove from wishlist" data-microtip-position="top" role="tooltip"><i class="flaticon-close"></i></button>
+                }
+                else
+                {
+                    <button type="button" class="single-wishlist wishlist" aria-label="Add to wishlist" data-microtip-position="top" role="tooltip"><i class="flaticon-heart"></i></button>
+                }
+            </div>
+            <div class="buy-button">
+                <button type="button" class="buyNow @(Product.productStock <= 0 ? "disabled" : "")">buy it now</button>
+            </div>
+            <div class="share-social">
+                <span class="header">Share: </span>
+                <div class="socials">
+                    <a href="javascript:void(0)"><i class="flaticon-facebook"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-instagram"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-twitter"></i></a>
+                    <a href="javascript:void(0)"><i class="flaticon-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="description-reviews">
+        <div class="tablist">
+            <a class="tabs active" href="javascript:void(0)">Description</a>
+            <a class="tabs" href="javascript:void(0)">Reviews</a>
+        </div>
+        <div class="contents width100">
+            <div id="prod-desc">
+                <p>@Product.productDesc</p>
+            </div>
+            <div id="prod-review">
+                <div id="new-review">
+
+                </div>
+                <div id="reviews">
+                    @if (Product.Reviews.Count() == 0)
+                    {
+                        <div class="review">
+                            <span class="title">No reviews for this product.</span>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var review in Product.Reviews)
+                        {
+                            <div class="review">
+                                <div class="review_icons">
+                                    @for (var i = 0; i < review.reviewRate; i++)
+                                    {
+                                        <i class="flaticon-star"></i>
+                                    }
+                                </div>
+                                <span class="title">@review.reviewTitle</span>
+                                <span class="by-date"><strong>@review.Users.UserFirstname @review.Users.UserLastname</strong> on <strong>@review.reviewDt</strong></span>
+                                <div class="message">
+                                    <p>@review.reviewDesc</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Hp_Products.Count() > 0)
+    {
+        <div class="products-container">
+            <div class="align-center">
+                <h2 class="title">Related products</h2>
+                <p class="description">Find your style Of arrival collection</p>
+            </div>
+            <div class="products">
+                @foreach (var product in Model.Hp_Products)
+                {
+                    <div class="item" p-id="@product.productId">
+                        <div>
+                            <a href="@Url.Action("Details", "Products", new { id = product.productId })">
+                                <img src="/images/products/@product.Photos.ElementAt(0).photoThumb" />
+                            </a>
+                            <div class="left">
+                                @if (product.productStock > 0)
+                                {
+                                    @if (product.productStatus != null)
+                                    {<span class="onsale">@product.productStatus</span>}
+                                    @if (product.productDiscount > 0)
+                                    {<span class="onsale">-@Math.Round(product.productDiscount, 1)%</span>}
+                                }
+                                else
+                                {
+                                    <span class="soldout">SOLDOUT</span>
+                                }
+                            </div>
+                            <div class="right">
+                                @if (Context.Request.Cookies[product.productId.ToString()] != null)
+                                {
+                                    <button type="button" class="wishlist" aria-label="Remove from wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-close"></i></button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="wishlist" aria-label="Add to wishlist" data-microtip-position="left" role="tooltip"><i class="flaticon-like"></i></button>
+                                }
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="position-relative">
+                                <h3 class="title">@product.productTitle</h3>
+                                @if (product.productStock > 0)
+                                {
+                                    <button type="button" class="buy">+  Add to cart</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="buy soldout">-  Soldout</button>
+                                }
+                            </div>
+                            <div class="price">
+                                @if (product.productDiscount > 0)
+                                {
+                                    <span>@Math.Round(product.productPrice * (1 - ((double)product.productDiscount / 100)), 1) &euro;</span>
+                                    <span class="discount">@product.productPrice &euro;</span>
+                                }
+                                else
+                                {
+                                    <span>@product.productPrice &euro;</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    <partial name="~/Views/Shared/shoppingcart.cshtml" />
+</div>

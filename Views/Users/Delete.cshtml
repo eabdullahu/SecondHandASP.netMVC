@@ -1,0 +1,58 @@
+﻿@model SecondHand.Controllers.UsersController.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_AdminLayout";
+}
+<div class="container m-t-20">
+    <div>
+        <h1>Are you sure you want to delete this user?</h1>
+    </div>
+    <form method="post" id="submitForm" enctype="multipart/form-data">
+        <div class="first">
+            <h4 class="title">Armin Pakashtica</h4>
+            <input type="hidden" asp-for="Id" />
+            <div class="inputContainer g50">
+                <div>
+                    <p>User Name </p>
+                    <input asp-for="Firstname" class="input" placeholder="Name">
+                </div>
+                <div>
+                    <p>User Surname</p>
+                    <input type="text" asp-for="Surname" class="input" placeholder="Surname">
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p> Email </p>
+                    <input type="email" asp-for="Email" class="input" placeholder="User email">
+                </div>
+                <div>
+                    <p>Role</p>
+                    <input asp-for="Role" class="input" disabled>
+                </div>
+            </div>
+
+            <div class="inputContainer g50">
+                <div>
+                    <p>Display name </p>
+                    <input asp-for="UserName" class="input" placeholder="Set a username">
+                </div>
+                <div>
+                    <p> Password </p>
+                    <input type="password" asp-for="password" class="input" placeholder="Your password">
+                </div>
+            </div>
+
+        </div>
+        <div class="second">
+            <div class="inputContainer justify-content-end m-t-20">
+                <input type="submit" value="Delete" class="input width100 outline-badge-red shadow" value="Delete Admin">
+            </div>
+            <div class="inputContainer justify-content-end m-t-20">  
+                <a asp-action="Index" class="input width100 outline-badge-blue shadow costumeBackLink" >Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>

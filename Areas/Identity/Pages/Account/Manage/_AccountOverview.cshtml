@@ -1,0 +1,17 @@
+﻿@inject SignInManager<User> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+
+<div class="account_overview toogle_profile">
+    <p>welcome to </p>
+    <p> your account</p>
+</div>
+<div class="user-dashboard toogle_profile" style="display:none;">
+    <h3>Dashboard</h3>
+    <p>Executive Sales Summary</p>
+    <div class="statistics-user">
+        <div id="columnchart_values" style="width: 90%;"></div>
+    </div>
+</div>
